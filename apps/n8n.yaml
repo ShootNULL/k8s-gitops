@@ -1,7 +1,7 @@
 # Application — главный объект ArgoCD: "вот папка в git, вот куда её деплоить".
 # Этот файл сам лежит в git, его подхватывает root-приложение (app of apps).
 #
-# ⚠️ Замени YOUR_GITHUB_USER на свой логин GitHub (см. README.md темы, шаг 2).
+# ⚠️ Замени ShootNULL на свой логин GitHub (см. README.md темы, шаг 2).
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -11,7 +11,7 @@ spec:
   project: default
 
   source:                             # ОТКУДА брать
-    repoURL: https://github.com/YOUR_GITHUB_USER/k8s-gitops.git
+    repoURL: https://github.com/ShootNULL/k8s-gitops.git
     targetRevision: main              # ветка (или тег, или коммит)
     path: n8n                         # папка в репозитории
 
