@@ -32,6 +32,9 @@ spec:
             - { name: GENERIC_TIMEZONE,       value: Europe/Moscow }
             - { name: N8N_SECURE_COOKIE,      value: "false" }   # уччебный стенд по http
             - { name: N8N_DIAGNOSTICS_ENABLED, value: "false" }  # не слать телеметрию
+            - { name: EXECUTIONS_MODE,       value: queue }   # ← main только ставит задачи
+            - { name: QUEUE_BULL_REDIS_HOST, value: redis }
+            - { name: QUEUE_BULL_REDIS_PORT, value: "6379" }
           readinessProbe:
             httpGet: { path: /healthz, port: 5678 }
             periodSeconds: 10
