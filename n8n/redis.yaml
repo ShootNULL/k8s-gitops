@@ -1,0 +1,36 @@
+# Redis — очередь задач для n8n в queue mode.
+# Данные в очереди временные, поэтому без диска (если Redis перезапустится,
+# недоделанные задачи потеряются — для учёбы ок, в проде ставят persistence).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: redis }
+  template:
+    metadata:
+      labels: { app: redis }
+    spec:
+      containers:
+        - name: redis
+          image: redis:8.2.3-alpine      # с Docker Hub (с public.ecr.aws у тебя не качается)
+          ports:
+            - containerPort: 6379
+          readinessProbe:
+            exec:
+              command: ["redis-cli", "ping"]
+            periodSeconds: 10
+          resources:
+            requests: { cpu: 20m, memory: 32Mi }
+            limits:   { memory: 128Mi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  selector: { app: redis }
+  ports:
+    - port: 6379
