@@ -1,0 +1,27 @@
+# Application — главный объект ArgoCD: "вот папка в git, вот куда её деплоить".
+# Этот файл сам лежит в git, его подхватывает root-приложение (app of apps).
+#
+# ⚠️ Замени YOUR_GITHUB_USER на свой логин GitHub (см. README.md темы, шаг 2).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: argocd                   # объекты Application всегда живут в namespace ArgoCD
+spec:
+  project: default
+
+  source:                             # ОТКУДА брать
+    repoURL: https://github.com/YOUR_GITHUB_USER/k8s-gitops.git
+    targetRevision: main              # ветка (или тег, или коммит)
+    path: n8n                         # папка в репозитории
+
+  destination:                        # КУДА деплоить
+    server: https://kubernetes.default.svc   # этот же кластер
+    namespace: n8n
+
+  syncPolicy:
+    automated:
+      prune: true                     # удалил файл из git → удалить объект из кластера
+      selfHeal: true                  # поменял руками в кластере → вернуть как в git
+    syncOptions:
+      - CreateNamespace=true          # создать namespace n8n, если его нет
