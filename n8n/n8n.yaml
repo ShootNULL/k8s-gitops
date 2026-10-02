@@ -30,7 +30,7 @@ spec:
               valueFrom:
                 secretKeyRef: { name: n8n-secrets, key: N8N_ENCRYPTION_KEY }
             - { name: GENERIC_TIMEZONE,       value: Europe/Moscow }
-            - { name: N8N_SECURE_COOKIE,      value: "false" }   # учебный стенд по http
+            - { name: N8N_SECURE_COOKIE,      value: "false" }   # уччебный стенд по http
             - { name: N8N_DIAGNOSTICS_ENABLED, value: "false" }  # не слать телеметрию
           readinessProbe:
             httpGet: { path: /healthz, port: 5678 }
